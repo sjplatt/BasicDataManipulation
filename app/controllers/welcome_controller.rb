@@ -5,7 +5,7 @@ class WelcomeController < ApplicationController
   end
 
   def viewData
-    keyword = params[:data_transfer][:keyword]
+    keyword = params[:data_transfer][:keyword].downcase
     @display = keyword
     keywordDB = Keyword.find_by(word:keyword)
     @count = 0
