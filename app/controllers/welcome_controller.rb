@@ -45,7 +45,7 @@ class WelcomeController < ApplicationController
     end 
     @count_array,@word_array = @count_array.zip(@word_array)
       .sort.reverse.transpose
-    render 'welcome/mostcommon'
+    #render 'welcome/mostcommon'
   end
 
   def getData
