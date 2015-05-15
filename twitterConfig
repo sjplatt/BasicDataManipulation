@@ -1,0 +1,28 @@
+def get_tweets
+    client = Twitter::Streaming::Client.new do |config|
+        config.consumer_key = "CwD4x6n4BeSXkXDoMfTCwr8xg"
+        config.consumer_secret = "PSA8VmqOpe8tyWDf0h1k4LMl4wxAMwYcVbnmZvlNvmf4YzkETF"
+        config.access_token = "3232294823-yb5Hq4y9vC7kUMZnFOxryKxH0m5ibNjaJ9KlxLs"
+        config.access_token_secret = "17atRKApfrLgVeHP76gC96ADSmc1wtQvvQlYanImeuoz0"
+    end
+    stat = Time.now
+    client.sample(language:"en") do |object|
+      if object.is_a?(Twitter::Tweet)
+        stat +=1
+        text = object.text.downcase.split
+        time = Time.now
+        text.each do |word|
+          if all_letters(word)
+            keyword = Keyword.find_by(word:word)
+            if keyword
+             keyword.tweets.create(tText:text,tTime:time)
+            else
+              keyword = Keyword.create(word:word)
+              keyword.tweets.create(tText:text,tTime:time)
+            end
+          end
+        end
+      end
+      break if Time.now > (stat + 10.minutes)
+    end
+  end
