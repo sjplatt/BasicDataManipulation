@@ -25,6 +25,29 @@ class WelcomeController < ApplicationController
     render 'welcome/viewdata'
   end
 
+  def mostCommon
+    @word_array = ["Default"]
+    @count_array = [1]
+    allKeywords = Keyword.all
+    allKeywords.each do |keyword|
+      if keyword && keyword.word
+        if @word_array.size <=2000
+          @word_array << keyword.word
+          @count_array << keyword.tweets.count
+        else
+          count = keyword.tweets.count
+          if(count>@count_array.min)
+            @word_array[@count_array.index(@count_array.min)] = keyword.word
+            @count_array[@count_array.index(@count_array.min)] = count
+          end 
+        end
+      end
+    end 
+    @count_array,@word_array = @count_array.zip(@word_array)
+      .sort.reverse.transpose
+    render 'welcome/mostcommon'
+  end
+
   def getData
     @data_transfer = DataTransfer.new
     k = Keyword.new

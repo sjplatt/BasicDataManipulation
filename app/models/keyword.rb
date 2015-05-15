@@ -2,6 +2,10 @@ require 'tweetstream'
 class Keyword < ActiveRecord::Base
   has_many :tweets
 
+  
+
+  $badArray = []
+
   def all_letters(str)
     # Use 'str[/[a-zA-Z]*/] == str' to let all_letters
     # yield true for the empty string

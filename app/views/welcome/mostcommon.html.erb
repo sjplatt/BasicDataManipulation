@@ -1,0 +1,17 @@
+<div class="center jumbotron">
+  <h1>View Most Common Data</h1>
+  <%= @count_array.reduce(:+) %>
+  <table>                         
+  <tr>                          
+    <th>Word</th>
+    <th>Amount</th>
+  </tr>
+  <% @word_array.each_with_index do |word,index| %>
+    <tr>
+      <td><%= word %></td>
+      <td><%= @count_array[index] %></td>
+    </tr>
+  <% end %>                       
+  </table>
+  <%= @word_array.inspect %>
+</div>
