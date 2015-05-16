@@ -2,9 +2,10 @@ require 'tweetstream'
 class Keyword < ActiveRecord::Base
   has_many :tweets
 
-  
 
-  $badArray = []
+  def blacklist_method(str)
+    ApplicationHelper::Blacklist.include?(str)
+  end 
 
   def all_letters(str)
     # Use 'str[/[a-zA-Z]*/] == str' to let all_letters
@@ -22,13 +23,14 @@ class Keyword < ActiveRecord::Base
     end
     stat = Time.now
     TweetStream::Client.new.sample(language: "en") do |status,client|
+      #puts status.class
       if status.is_a?(Twitter::Tweet)
         #puts status.text
         #puts stat.inspect + Time.now.inspect
         text = status.text.downcase.split
         time = Time.now
         text.each do |word|
-          if all_letters(word)
+          if all_letters(word) && !blacklist_method(word)
             keyword = Keyword.find_by(word:word)
             if keyword
              keyword.tweets.create(tText:text,tTime:time)
@@ -39,7 +41,8 @@ class Keyword < ActiveRecord::Base
           end
         end
       end
-      break if Time.now > (stat + 10.hours)
+      break if Time.now > (stat + 1.minutes)
+      #break if stat>=20
     end
   end
 

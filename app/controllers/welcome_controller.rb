@@ -9,17 +9,16 @@ class WelcomeController < ApplicationController
     @display = keyword
     keywordDB = Keyword.find_by(word:keyword)
     @count = 0
+    @time_array = []
     if keywordDB 
       @count = keywordDB.tweets.count
-    end
-
-    start = keywordDB.tweets.first.tTime
-    @time_array = []
-    keywordDB.tweets.each do |tweet|
-      dif = (((tweet.tTime-start)/60)/15).floor
-      if @time_array[dif]
-        @time_array[dif] +=1
-      else @time_array[dif] = 1
+      start = keywordDB.tweets.first.tTime
+      keywordDB.tweets.each do |tweet|
+        dif = (((tweet.tTime-start)/60)/15).floor
+        if @time_array[dif]
+          @time_array[dif] +=1
+        else @time_array[dif] = 1
+        end
       end
     end
     render 'welcome/viewdata'
