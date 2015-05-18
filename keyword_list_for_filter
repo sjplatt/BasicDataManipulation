@@ -1,0 +1,26 @@
+@@apple_keywords = ["apple","aapl","iphone","ipod","iwatch","itouch","mac",
+"macbook","osx","os x","itunes","ios","beats","imac","ipad","icloud","tim cook","safari", "apple tv","5s"]
+
+@@microsoft_keywords = ["microsoft",xbox","windows","surface","bill gates","skype","satya nadella","visual studio","bing","msn","microsoft office","word","powerpoint","excel","internet explorer","ie8","microsoft edge","outlook","kinect","onedrive","windows phone","msft","cortana"]
+
+@@google_keywords = ["google",googl","youtube","gmail","goog","larry page","google+","nexus","android","google fiber" , "chromecast", "chromebook","chrome","recaptcha"]
+
+@@netflix_keywords = ["netflix","house of cards","nflx","reed hastings","daredevil","orange is the new black","marco polo"]
+
+@@tesla_keywords = ["tesla","tsla","spacex","elon musk", "hybrid", "supercharger","powerwall"]
+
+@@amazon_keywords = ["amazon","prime","amzn","s3","kindle","aws","echo", "audible"]
+
+@@sony_keywords =["ps4","sony","bravia","playstation","sne","xperia"]
+
+@@samsung_keywords= ["galaxy","s4","s5","s6","league of legends","samsung","kwon oh-hyun,"ssnlf"]
+
+@@nintendo_keywords = ["ntdoy","nintendo","mario kart", "wii", "3ds", "ds", "brawl,"smash","satoru iwata", "metroid", "starfox", "mario", "gamecube", "zelda","donkey kong"]
+
+@@disney_keywords = ["disney","marvel","dis","star wars","avengers","pixar", "captain america","disneyland","disneyworld","a&e","abc","espn"]
+
+@@yum_keywords = ["yum brands","yum","pizza hut","kfc","taco bell"]
+
+
+["apple","aapl","iphone","ipod","iwatch","itouch","mac",
+"macbook","osx","os x","itunes","ios","beats","imac","ipad","icloud","tim cook","safari", "apple tv","5s","microsoft",xbox","windows","surface","bill gates","skype","satya nadella","visual studio","bing","msn","microsoft office","word","powerpoint","excel","internet explorer","ie8","microsoft edge","outlook","kinect","onedrive","windows phone","msft","cortana","google",googl","youtube","gmail","goog","larry page", "google+", "nexus", "android","google fiber","chromecast","chromebook","chrome","recaptcha","netflix","house of cards","nflx","reed hastings","daredevil","orange is the new black","marco polo","tesla","tsla","spacex","elon musk", "hybrid", "supercharger","powerwall","amazon","prime","amzn","s3","kindle","aws","echo", "audible","ps4","sony","bravia","playstation","sne","xperia","galaxy","s4","s5","s6","league of legends","samsung","kwon oh-hyun,"ssnlf","ntdoy","nintendo","mario kart", "wii", "3ds", "ds", "brawl,"smash","satoru iwata", "metroid", "starfox", "mario", "gamecube", "zelda","donkey kong"."disney","marvel","dis","star wars","avengers","pixar", "captain america","disneyland","disneyworld","a&e","abc","espn","yum brands","yum","pizza hut","kfc","taco bell"]
