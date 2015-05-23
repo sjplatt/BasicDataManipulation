@@ -1,0 +1,204 @@
+    apple = ["apple","aapl","iphone","ipod","iwatch","itouch","mac",
+      "macbook","osx","os x","itunes","ios","beats","imac","ipad","icloud",
+      "tim cook","safari", "apple tv","5s"]
+
+    microsoft = ["microsoft","xbox","windows","surface","bill gates","skype","satya nadella","visual studio","bing","msn","microsoft office","powerpoint","excel","internet explorer","ie8","microsoft edge","outlook","kinect","onedrive","windows phone","msft","cortana"]
+
+    google = ["google","googl","youtube","gmail","goog","larry page","google+","nexus","android","google fiber" , "chromecast", "chromebook","chrome","recaptcha"]
+
+    netflix = ["netflix","house of cards","nflx","reed hastings",
+      "daredevil","orange is the new black","marco polo"]
+
+    tesla = ["tesla","tsla","spacex","elon musk", "hybrid", 
+      "supercharger","powerwall"]
+
+    amazon = ["amazon","prime","amzn","s3","kindle","aws","echo",
+      "audible"]
+
+    sony = ["ps4","sony","bravia","playstation","sne","xperia"]
+
+    samsung = ["galaxy","s4","s5","s6","samsung","kwon oh-hyun",
+      "ssnlf"]
+
+    nintendo = ["ntdoy","nintendo","mario kart", "wii", "3ds", "ds", "brawl","smash","satoru iwata", "metroid", "starfox", "mario",
+      "gamecube", "zelda","donkey kong"]
+
+    disney = ["disney","marvel","dis stock","star wars","avengers","pixar", "captain america","disneyland","disneyworld","a&e","espn"]
+
+    yum = ["yum brands","pizza hut","kfc","taco bell"]
+
+    mcdonalds = ["mcdonalds","mcd"]
+
+    pepsi = ["pepsi","pepsico","pep","doritos","indra nooyi"]
+
+    intel = ["intel","INTC","2 in 1","i7","pentium"]
+
+    jpmorgan = ["jpmorgan","jpmorgan chase", "chase"]
+
+    nike = ["nike", "nke", "just do it"]
+
+    verizon = ["vz","verizon","fios","lowell mcadam"]
+
+    honda = ["honda,"hmc","accord","acura","civic"]
+
+    toyota = ["toyota","tm stock","camry","prius","lexus","Akio Toyoda"]
+
+    ibm = ["ibm","ginni rometty","iseries","watson"]
+
+    cocacola = ["coca-cola","coke","ko stock","muhtar kent"]
+
+    ge = ["general electric","ge","nbc"]
+
+    boeing = ["boeing","ba stock","747","787","777"]
+
+    hp = ["hp","hpq","hewlett-packard","hewlett packard","meg whitman"]
+
+    kraft = ["kraft","kraft foods group","krft","john cahill"]
+
+    nestle = ["nestle","nesn","paul bulcke"]
+
+    proctergamble = ["procter & gamble","procter and gamble", 
+    "pg stock","alan lafley"]
+
+    jnj = ["johnson & johnson","johnson and johnson", "jnj","alex gorsky"]
+
+    kellogg = ["kellogg","k stock", "john bryant","kelloggs"]
+
+    unilever = ["unilever","un stock","paul polman"]
+
+    timewarner = ["time warner","twx","jeffrey bewkes"]
+
+    cbs = ["cbs","leslie moonves","showtime"]
+
+    viacom = ["viacom","via.b","philippe dauman"]
+
+    newscorp = ["21st century fox","fox","newscorp","foxa","rupert murdoch",
+      "20th century fox","searchlight pictures"]
+
+    amd = ["amd","advanced micro devices", "radeon","firepro", "lisa su"]
+
+    nvidia = ["nvidia","nvda","jen-hsun huang","geforce","gtx"]
+    
+    yahoo = ["yahoo","yahoo!","yhoo","marissa mayer"]
+     
+    sandisk = ["sandisk","sndk"]
+    
+    texas instruments = ["texas instruments","ti","txn"]
+    
+    cisco = ["cisco","cisco systems","csco"]
+     
+    micron = ["micron","mu stock", "micron technology"]
+    
+    pandora = ["internet radio", "pandora", "p stock", "brian mcandrews"]
+  
+    qualcomm = ["qualcomm","qcom","steven mollenkopf"]
+   
+    citigroup = ["citigroup","c stock", "michael corbat"]
+    
+    expedia = ["expedia", "expe","richard barton","hotwire"]
+     
+    bank of america = ["bank of america", "bac stock"]
+   
+    atandt = ["at&t","at and t","t stock"]
+    
+    chevron = ["chevron","cvx"]
+    
+    exxon = ["exxon", "exxon mobile", "xom"]
+   
+    home depot = ["home depot"]
+     
+    pfizer = ["pfizer","pfe","ian read"]
+    
+    united health = ["united health", "unitedhealth","unh"]
+    
+    visa = ["visa","v stock"]
+    
+    adobe = ["adobe","adbe","adobe systems"]
+   
+    Aetna = ["aetna","aet"]
+   
+    american airlines = ["american airlines", "aal"]
+    
+    apache = ["apache corporation","apa stock"]
+    
+    broadcom = ["broadcom","brcm"]
+   
+    comcast = ["comcast","cmcsa"]
+ 
+    dowchem = ["dow chemical", "dow stock"]
+    
+    drpepper = ["dr pepper","snapple", "dps stock"]
+   
+    ebay = ["ebay","paypal"]
+   
+    ea = ["electronic arts", "ea"]
+   
+    facebook = ["facebook stock","fb stock"]
+    
+    gamestop = ["gamestop", "gme stock"]
+    
+    generalmill = ["general mills", "gis stock"]
+ 
+    halliburton = ["halliburton", "hal stock"]
+
+    hasbro = ["hasbro", "has stock"]
+   
+    hospira = ["hospira", "hsp stock"]
+   
+    humana = ["humana", "hum stock"]
+    
+    intuit = ["intuit", "intu"]
+    
+    juniper = ["juniper networks","jnpr"]
+   
+    macy = ["macy", "macy's", "m stock"]
+    
+    martinmarietta = ["martin narietta","mlm stock"]
+
+    mastercard = ["mastercard", "ma stock"]
+  
+    meadwestvaco = ["meadwestvaco","mwv stock"]
+  
+    mohawk = ["mohawk industries", "mhk stock"]
+   
+    monster = ["monster beverage","mnst"]
+   
+    motorola = ["motorola", "msi stock"]
+  
+    oracle = ["oracle","orcl", "oracle corporation"]
+     
+    pnc = ["pnc stock"]
+     
+    priceline = ["priceline", "pcln"]
+  
+    quest = ["quest diagnostics", "dgx stock"]
+  
+    raytheon = ["raytheon", "rtn stock"]
+
+    redhat = ["Red Hat", "rht stock"]
+    
+    salesforce = ["salesforce", "salesforce.com","crm stock"]
+    
+    skywork = ["skyworks", "swks"]
+    
+    starbucks = ["starbucks" ,"sbux"]
+    
+    target = ["target corporation", "tgt stock"]
+   
+    tripadvisor = ["tripadvisor", "trip stock"]
+  
+    underarmour = ["under armour", "ua stock"]
+   
+    ups = ["ups stock"]
+  
+    walgreens = ["walgreens", "wag stock"]
+  
+    anthem = ["anthem inc", "wellpoint", "wlp stock"]
+   
+    wellsfargo = ["wells fargo", "wfc stock"]
+   
+    westernunion = ["western union", "wu stock"]
+   
+    xerox = ["xerox", "xrx stock"]
+   
+    wholefood = ["whole foods", "wfm stock"]

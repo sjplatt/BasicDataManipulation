@@ -6,12 +6,14 @@ class Keyword < ActiveRecord::Base
 
   @@black_list = ["#iphonegames","#gameinsight"]
 
+  @@blacklist_count = 0
+
   def union()
     apple = ["apple","aapl","iphone","ipod","iwatch","itouch","mac",
       "macbook","osx","os x","itunes","ios","beats","imac","ipad","icloud",
       "tim cook","safari", "apple tv","5s"]
 
-    microsoft = ["microsoft","xbox","windows","surface","bill gates","skype","satya nadella","visual studio","bing","msn","microsoft office","word","powerpoint","excel","internet explorer","ie8","microsoft edge","outlook","kinect","onedrive","windows phone","msft","cortana"]
+    microsoft = ["microsoft","xbox","windows","surface","bill gates","skype","satya nadella","visual studio","bing","msn","microsoft office","powerpoint","excel","internet explorer","ie8","microsoft edge","outlook","kinect","onedrive","windows phone","msft","cortana"]
 
     google = ["google","googl","youtube","gmail","goog","larry page","google+","nexus","android","google fiber" , "chromecast", "chromebook","chrome","recaptcha"]
 
@@ -34,8 +36,195 @@ class Keyword < ActiveRecord::Base
 
     disney = ["disney","marvel","dis stock","star wars","avengers","pixar", "captain america","disneyland","disneyworld","a&e","espn"]
 
-    yum = ["yum brands","yum","pizza hut","kfc","taco bell"]
-    @@query_array = apple|microsoft|google|netflix|tesla|amazon|sony|samsung|nintendo|disney|yum
+    yum = ["yum brands","pizza hut","kfc","taco bell"]
+
+    mcdonalds = ["mcdonalds","mcd"]
+
+    pepsi = ["pepsi","pepsico","pep","doritos","indra nooyi"]
+
+    intel = ["intel","INTC","2 in 1","i7","pentium"]
+
+    jpmorgan = ["jpmorgan","jpmorgan chase", "chase"]
+
+    nike = ["nike", "nke", "just do it"]
+
+    verizon = ["vz","verizon","fios","lowell mcadam"]
+
+    honda = ["honda","hmc","accord","acura","civic"]
+
+    toyota = ["toyota","tm stock","camry","prius","lexus","Akio Toyoda"]
+
+    ibm = ["ibm","ginni rometty","iseries","watson"]
+
+    cocacola = ["coca-cola","coke","ko stock","muhtar kent"]
+
+    ge = ["general electric","ge","nbc"]
+
+    boeing = ["boeing","ba stock","747","787","777"]
+
+    hp = ["hp","hpq","hewlett-packard","hewlett packard","meg whitman"]
+
+    kraft = ["kraft","kraft foods group","krft","john cahill"]
+
+    nestle = ["nestle","nesn","paul bulcke"]
+
+    proctergamble = ["procter & gamble","procter and gamble", 
+    "pg stock","alan lafley"]
+
+    jnj = ["johnson & johnson","johnson and johnson", "jnj","alex gorsky"]
+
+    kellogg = ["kellogg","k stock", "john bryant","kelloggs"]
+
+    unilever = ["unilever","un stock","paul polman"]
+
+    timewarner = ["time warner","twx","jeffrey bewkes"]
+
+    cbs = ["cbs","leslie moonves","showtime"]
+
+    viacom = ["viacom","via.b","philippe dauman"]
+
+    newscorp = ["21st century fox","fox","newscorp","foxa","rupert murdoch",
+      "20th century fox","searchlight pictures"]
+
+    amd = ["amd","advanced micro devices", "radeon","firepro", "lisa su"]
+
+    nvidia = ["nvidia","nvda","jen-hsun huang","geforce","gtx"]
+    
+    yahoo = ["yahoo","yahoo!","yhoo","marissa mayer"]
+     
+    sandisk = ["sandisk","sndk"]
+    
+    texasinstruments = ["texas instruments","ti","txn"]
+    
+    cisco = ["cisco","cisco systems","csco"]
+     
+    micron = ["micron","mu stock", "micron technology"]
+    
+    pandora = ["internet radio", "pandora", "p stock", "brian mcandrews"]
+  
+    qualcomm = ["qualcomm","qcom","steven mollenkopf"]
+   
+    citigroup = ["citigroup","c stock", "michael corbat"]
+    
+    expedia = ["expedia", "expe","richard barton","hotwire"]
+     
+    bankofamerica = ["bank of america", "bac stock"]
+   
+    atandt = ["at&t","at and t","t stock"]
+    
+    chevron = ["chevron","cvx"]
+    
+    exxon = ["exxon", "exxon mobile", "xom"]
+   
+    homedepot = ["home depot"]
+     
+    pfizer = ["pfizer","pfe","ian read"]
+    
+    unitedhealth = ["united health", "unitedhealth","unh"]
+    
+    visa = ["visa","v stock"]
+    
+    adobe = ["adobe","adbe","adobe systems"]
+   
+    aetna = ["aetna","aet"]
+   
+    americanairlines = ["american airlines", "aal"]
+    
+    apache = ["apache corporation","apa stock"]
+    
+    broadcom = ["broadcom","brcm"]
+   
+    comcast = ["comcast","cmcsa"]
+ 
+    dowchem = ["dow chemical", "dow stock"]
+    
+    drpepper = ["dr pepper","snapple", "dps stock"]
+   
+    ebay = ["ebay","paypal"]
+   
+    ea = ["electronic arts", "ea"]
+   
+    facebook = ["facebook stock","fb stock"]
+    
+    gamestop = ["gamestop", "gme stock"]
+    
+    generalmill = ["general mills", "gis stock"]
+ 
+    halliburton = ["halliburton", "hal stock"]
+
+    hasbro = ["hasbro", "has stock"]
+   
+    hospira = ["hospira", "hsp stock"]
+   
+    humana = ["humana", "hum stock"]
+    
+    intuit = ["intuit", "intu"]
+    
+    juniper = ["juniper networks","jnpr"]
+   
+    macy = ["macy", "macy's", "m stock"]
+    
+    martinmarietta = ["martin narietta","mlm stock"]
+
+    mastercard = ["mastercard", "ma stock"]
+  
+    meadwestvaco = ["meadwestvaco","mwv stock"]
+  
+    mohawk = ["mohawk industries", "mhk stock"]
+   
+    monster = ["monster beverage","mnst"]
+   
+    motorola = ["motorola", "msi stock"]
+  
+    oracle = ["oracle","orcl", "oracle corporation"]
+     
+    pnc = ["pnc stock"]
+     
+    priceline = ["priceline", "pcln"]
+  
+    quest = ["quest diagnostics", "dgx stock"]
+  
+    raytheon = ["raytheon", "rtn stock"]
+
+    redhat = ["Red Hat", "rht stock"]
+    
+    salesforce = ["salesforce", "salesforce.com","crm stock"]
+    
+    skywork = ["skyworks", "swks"]
+    
+    starbucks = ["starbucks" ,"sbux"]
+    
+    target = ["target corporation", "tgt stock"]
+   
+    tripadvisor = ["tripadvisor", "trip stock"]
+  
+    underarmour = ["under armour", "ua stock"]
+   
+    ups = ["ups stock"]
+  
+    walgreens = ["walgreens", "wag stock"]
+  
+    anthem = ["anthem inc", "wellpoint", "wlp stock"]
+   
+    wellsfargo = ["wells fargo", "wfc stock"]
+   
+    westernunion = ["western union", "wu stock"]
+   
+    xerox = ["xerox", "xrx stock"]
+   
+    wholefood = ["whole foods", "wfm stock"]
+    
+    @@query_array = apple|microsoft|google|netflix|tesla|amazon|sony|samsung|nintendo|disney|yum|mcdonalds|pepsi|intel|jpmorgan|nike|verizon|honda|
+      toyota|ibm|cocacola|ge|boeing|hp|kraft|nestle|proctergamble|jnj|kellogg|unilever|timewarner|cbs|viacom|newscorp|amd|nvidia|yahoo|sandisk|
+        texasinstruments|cisco|micron|pandora|qualcomm|citigroup|expedia|
+        bankofamerica|atandt|chevron|exxon|homedepot|pfizer|unitedhealth|
+        visa|adobe|aetna|americanairlines|apache|broadcom|comcast|dowchem|
+        drpepper|ebay|ea|facebook|gamestop|generalmill|halliburton|hasbro|
+        hospira|humana|intuit|juniper|macy|mastercard|meadwestvaco|mohawk|
+        monster|motorola|oracle|pnc|priceline|quest|raytheon|redhat|
+        salesforce|skywork|starbucks|target|tripadvisor|underarmour|ups|
+        walgreens|anthem|wellsfargo|westernunion|xerox|wholefood
+        #puts @@query_array.length
   end 
   def configure_twitter()
     union()
@@ -54,6 +243,7 @@ class Keyword < ActiveRecord::Base
   def blacklist_filter?(str)
     @@black_list.each do |badword|
       if str.include?(badword)
+        @@blacklist_count+=1
         return false
       end
     end
@@ -65,6 +255,7 @@ class Keyword < ActiveRecord::Base
   end
 
   def keyword_for_tweet(str)
+    str = str.map(&:downcase)
     solution = []
     if !blacklist_filter?(str)
       return solution
@@ -88,6 +279,7 @@ class Keyword < ActiveRecord::Base
           time = Time.now
           count+=1
           keyword_for_tweet(text).each do |match|
+            #puts status.text
             keyword = Keyword.find_by(word:match)
             if keyword
               keyword.tweets.create(tText:text,tTime:time)
@@ -99,7 +291,8 @@ class Keyword < ActiveRecord::Base
         end
      break if Time.now > (stat + 1.minutes)
     end
-    puts count
+    puts "Number of tweets : " + count.inspect
+    puts "Number blacklisted : " + @@blacklist_count.inspect
   end
 
   # def get_tweets2
