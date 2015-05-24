@@ -226,6 +226,7 @@ class Keyword < ActiveRecord::Base
         walgreens|anthem|wellsfargo|westernunion|xerox|wholefood
         #puts @@query_array.length
   end 
+  
   def configure_twitter()
     union()
     TweetStream.configure do |config|
@@ -264,9 +265,6 @@ class Keyword < ActiveRecord::Base
       if ((word.split)&(str) == (word.split))
         solution << word
       end
-      #if ((word.split).all? {|s| str.include?(s)})
-      #  solution <<word
-      #end
     end
     solution
   end
@@ -282,7 +280,6 @@ class Keyword < ActiveRecord::Base
           time = Time.now
           count+=1
           keyword_for_tweet(text).each do |match|
-            #puts status.text
             keyword = Keyword.find_by(word:match)
             if keyword
               keyword.tweets.create(tText:text,tTime:time)
@@ -297,67 +294,5 @@ class Keyword < ActiveRecord::Base
     puts "Number of tweets : " + count.inspect
     puts "Number blacklisted : " + @@blacklist_count.inspect
   end
-
-  # def get_tweets2
-  #   TweetStream.configure do |config|
-  #     config.consumer_key       = 'CwD4x6n4BeSXkXDoMfTCwr8xg'
-  #     config.consumer_secret    = 'PSA8VmqOpe8tyWDf0h1k4LMl4wxAMwYcVbnmZvlNvmf4YzkETF'
-  #     config.oauth_token        = '3232294823-yb5Hq4y9vC7kUMZnFOxryKxH0m5ibNjaJ9KlxLs'
-  #     config.oauth_token_secret = '17atRKApfrLgVeHP76gC96ADSmc1wtQvvQlYanImeuoz0'
-  #     config.auth_method        = :oauth
-  #   end
-  #   stat = Time.now
-  #   TweetStream::Client.new.sample(language: "en") do |status,client|
-  #     #puts status.class
-  #     if status.is_a?(Twitter::Tweet)
-  #       #puts status.text
-  #       #puts stat.inspect + Time.now.inspect
-  #       text = status.text.downcase.split
-  #       time = Time.now
-  #       text.each do |word|
-  #         if all_letters(word) && !blacklist_method(word)
-  #           keyword = Keyword.find_by(word:word)
-  #           if keyword
-  #             keyword.tweets.create(tText:text,tTime:time)
-  #           else
-  #             keyword = Keyword.create(word:word)
-  #             keyword.tweets.create(tText:text,tTime:time)
-  #           end
-  #         end
-  #       end
-  #     end
-  #     break if Time.now > (stat + 1.minutes)
-  #     #break if stat>=20
-  #   end
-  # end
-  #
-  #
-  # def get_tweets2
-  #   client = Twitter::Streaming::Client.new do |config|
-  #       config.consumer_key = "CwD4x6n4BeSXkXDoMfTCwr8xg"
-  #       config.consumer_secret = "PSA8VmqOpe8tyWDf0h1k4LMl4wxAMwYcVbnmZvlNvmf4YzkETF"
-  #       config.access_token = "3232294823-yb5Hq4y9vC7kUMZnFOxryKxH0m5ibNjaJ9KlxLs"
-  #       config.access_token_secret = "17atRKApfrLgVeHP76gC96ADSmc1wtQvvQlYanImeuoz0"
-  #   end
-  #   stat = Time.now
-  #   client.sample(language:"en") do |object|
-  #     if object.is_a?(Twitter::Tweet)
-  #       text = object.text.downcase.split
-  #       time = Time.now
-  #       text.each do |word|
-  #         if all_letters(word)
-  #           keyword = Keyword.find_by(word:word)
-  #           if keyword
-  #            keyword.tweets.create(tText:text,tTime:time)
-  #           else
-  #             keyword = Keyword.create(word:word)
-  #             keyword.tweets.create(tText:text,tTime:time)
-  #           end
-  #         end
-  #       end
-  #     end
-  #     break if Time.now > (stat + 10.minutes)
-  #   end
-  # end
 
 end

@@ -2,11 +2,24 @@
   <h1>Welcome to the Sample App</h1>
   
   <%= form_for(@data_transfer, :url => 'viewData') do |f| %>
-  <%= f.label :keyword %>
+  <%= f.label :keyword, "Basic stats for keyword"%>
   <%= f.text_field :keyword %>
   <%= submit_tag("Search") %>
   <% end %>
 
-  <%= link_to "Grab Data", 'getData', class: "btn btn-lg btn-primary" %>
-  <%= link_to "Most Common", 'mostCommon', class: "btn btn-lg btn-primary" %>
+  <%= form_for(:most_common_word,:url => 'most_common_word') do |f| %>
+  <%= f.label :keyword ,"Word analysis for keyword"%>
+  <%= f.text_field :keyword %>
+  <%= submit_tag("Search") %>
+  <% end %>
+
+  <%= form_for(:stocks,:url => 'stock_analysis') do |f| %>
+  <%= f.label :keyword ,"Compare keyword to stock"%>
+  <%= f.text_field :keyword %>
+  <%= submit_tag("Search") %>
+  <% end %>
+
+  <!--<%= link_to "Grab Data", 'getData', class: "btn btn-lg btn-primary" %>
+  -->
+  <%= link_to "Most Common", 'most_popular', class: "btn btn-lg btn-primary" %>
 </div>

@@ -24,7 +24,48 @@ class WelcomeController < ApplicationController
     render 'welcome/viewdata'
   end
 
-  def mostCommon
+  def most_common_word
+    #this will be your output array. Please talk with whoever is doing
+    # #4 for more details. 
+    @word_array = []
+
+    #Basic parameter to make sure post is working
+    @keyword = params[:most_common_word][:keyword]
+
+    #This is the passed in keyword you will work with
+    keyword = params[:most_common_word][:keyword].downcase
+    keywordDB = Keyword.find_by(word:keyword)
+
+    #If the keyword is valid, we will loop through tweets.
+    if keywordDB
+      keywordDB.tweets.each do |tweet|
+        #This is where the processing will happen
+      end
+    end
+
+  end
+
+  def stock_analysis
+    #this will be your output array. Please talk with whoever is doing
+    # #4 for more details. 
+    @word_array = []
+
+    #Basic parameter to make sure post is working
+    @keyword = params[:stocks][:keyword]
+
+    #This is the passed in keyword you will work with
+    keyword = params[:stocks][:keyword].downcase
+    keywordDB = Keyword.find_by(word:keyword)
+
+    #If the keyword is valid, we will loop through tweets.
+    if keywordDB
+      keywordDB.tweets.each do |tweet|
+        #This is where the processing will happen
+      end
+    end
+  end
+
+  def most_popular
     @word_array = ["Default"]
     @count_array = [1]
     allKeywords = Keyword.all

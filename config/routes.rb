@@ -2,7 +2,9 @@ Rails.application.routes.draw do
   root 'welcome#index'
   get 'getData' => 'welcome#getData'
   post 'viewData' => 'welcome#viewData'
-  get 'mostCommon' => 'welcome#mostCommon'
+  get 'most_popular' => 'welcome#most_popular'
+  post 'most_common_word' => 'welcome#most_common_word'
+  post 'stock_analysis' => 'welcome#stock_analysis'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
