@@ -39,6 +39,9 @@ class WelcomeController < ApplicationController
     #If the keyword is valid, we will loop through tweets.
     if keywordDB
       keywordDB.tweets.each do |tweet|
+        #NOTE: tweet.tTime is the time it was created. 
+  #      tweet.tText is the tweets text as an array of words.
+  #      tweet.keyword_id is its keyword id(if you need)
         #This is where the processing will happen
       end
     end
@@ -61,8 +64,14 @@ class WelcomeController < ApplicationController
     if keywordDB
       keywordDB.tweets.each do |tweet|
         #This is where the processing will happen
+         #NOTE: tweet.tTime is the time it was created. 
+  #      tweet.tText is the tweets text as an array of words.
+  #      tweet.keyword_id is its keyword id(if you need)
       end
     end
+
+    #you will also need to get stock data somehow and store it for
+    #display in the view
   end
 
   def most_popular
