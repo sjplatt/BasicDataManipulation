@@ -14,7 +14,7 @@ class WelcomeController < ApplicationController
       @count = keywordDB.tweets.count
       start = keywordDB.tweets.first.tTime
       keywordDB.tweets.each do |tweet|
-        dif = (((tweet.tTime-start)/60)/15).floor
+        dif = TimeDifference.between(start,tweet.tTime).in_minutes/15
         if @time_array[dif]
           @time_array[dif] +=1
         else @time_array[dif] = 1
@@ -97,4 +97,24 @@ class WelcomeController < ApplicationController
     #k.destroy
     render 'welcome/index'
   end
+
+  def tweet_over_time
+    @time_array = []
+    @count = Tweet.all.count
+    start = Tweet.find_by(id:1).tTime
+    # Tweet.all.each do |tweet|
+    #   start = tweet.tTime if start==0
+    #   if TimeDifference.between(tweet.tTime,start).in_minutes <0
+    #     start = tweet.tTime
+    #   end
+    # end
+    Tweet.all.each do |tweet|
+      dif = TimeDifference.between(start,tweet.tTime).in_minutes/15
+      if @time_array[dif]
+        @time_array[dif] +=1
+      else @time_array[dif] = 1
+      end
+    end
+  end
+  
 end

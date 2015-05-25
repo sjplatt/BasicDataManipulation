@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get 'most_popular' => 'welcome#most_popular'
   post 'most_common_word' => 'welcome#most_common_word'
   post 'stock_analysis' => 'welcome#stock_analysis'
+  get 'tweet_over_time' => 'welcome#tweet_over_time'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

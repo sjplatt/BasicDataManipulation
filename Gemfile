@@ -8,6 +8,7 @@ gem 'sqlite3'
 gem 'twitter'
 gem 'delayed_job_active_record'
 gem 'tweetstream'
+gem 'time_difference'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets

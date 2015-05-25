@@ -158,6 +158,8 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.5)
     tilt (1.4.1)
+    time_difference (0.4.2)
+      activesupport
     turbolinks (2.5.3)
       coffee-rails
     tweetstream (2.6.1)
@@ -202,6 +204,7 @@ DEPENDENCIES
   sdoc (~> 0.4.0)
   spring
   sqlite3
+  time_difference
   turbolinks
   tweetstream
   twitter
