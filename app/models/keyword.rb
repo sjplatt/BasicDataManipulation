@@ -289,7 +289,7 @@ class Keyword < ActiveRecord::Base
             end
           end
         end
-     break if Time.now > (stat + 12.hours)
+     break if Time.now > (stat + 1.minutes)
     end
     puts "Number of tweets : " + count.inspect
     puts "Number blacklisted : " + @@blacklist_count.inspect

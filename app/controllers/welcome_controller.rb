@@ -14,7 +14,7 @@ class WelcomeController < ApplicationController
       @count = keywordDB.tweets.count
       start = keywordDB.tweets.first.tTime
       keywordDB.tweets.each do |tweet|
-        dif = (((tweet.tTime-start)/60)/15).floor
+        dif = TimeDifference.between(start,tweet.tTime).in_minutes/15
         if @time_array[dif]
           @time_array[dif] +=1
         else @time_array[dif] = 1
