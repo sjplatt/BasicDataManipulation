@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150514211841) do
+ActiveRecord::Schema.define(version: 20150525222314) do
 
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer  "priority",   default: 0, null: false
@@ -36,8 +36,8 @@ ActiveRecord::Schema.define(version: 20150514211841) do
   end
 
   create_table "tweets", force: :cascade do |t|
-    t.string   "tText"
-    t.time     "tTime"
+    t.text     "tText"
+    t.datetime "tTime"
     t.integer  "keyword_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
