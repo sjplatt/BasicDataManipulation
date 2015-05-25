@@ -1,7 +1,7 @@
 class CreateTweets < ActiveRecord::Migration
   def change
     create_table :tweets do |t|
-      t.string :tText
+      t.text :tText
       t.time :tTime
       t.references :keyword, index: true
 

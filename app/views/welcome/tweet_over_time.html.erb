@@ -1,0 +1,17 @@
+<div class="center jumbotron">
+  <h1>View data over time</h1>
+  <%= @count %>
+  <table>                         
+  <tr>                          
+    <th>Time</th>
+    <th>Amount</th>
+  </tr>
+  <% @time_array.each_with_index do |data,index| %>
+    <tr>
+      <td><%= index*15 %></td>
+      <td><%= data %></td>
+    </tr>
+  <% end %>                       
+  </table>
+  <%= link_to "Home", root_path, class: "btn btn-lg btn-primary" %>
+</div>
