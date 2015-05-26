@@ -38,7 +38,30 @@ class WelcomeController < ApplicationController
 
     #If the keyword is valid, we will loop through tweets.
     if keywordDB
+
+      #earliest and latest tweet
+      start_time = keywordDB.tweets.first.tTime
+      end_time = keywordDB.tweets.last.tTime
+
+      #no. of time intervals
+      interval = 15.minutes
+      size = (end_time - start_time) / interval + 1
+
+      word_frequency = []
+      #array of hashes storing frequencies of all words
+      for i in 1..size
+        word_frequency.push(Hash.new(0))
+      end
+
       keywordDB.tweets.each do |tweet|
+
+        tweet.tText.delete("\"[]").split(', ').each do |word|
+          if word[/[a-zA-Z]+/] == word && word != keyword && !ApplicationHelper::Blacklist.include?(word)
+            index = (tweet.tTime - start_time) / interval
+            word_frequency[index][word] += 1
+          end
+
+        end
         #NOTE: tweet.tTime is the time it was created. 
   #      tweet.tText is the tweets text as an array of words.
   #      tweet.keyword_id is its keyword id(if you need)
@@ -46,6 +69,9 @@ class WelcomeController < ApplicationController
       end
     end
 
+    for i in 0..(size - 1)
+      @word_array.push(word_frequency[i].invert.max)
+    end
   end
 
   def stock_analysis
