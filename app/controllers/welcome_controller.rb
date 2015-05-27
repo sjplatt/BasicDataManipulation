@@ -110,8 +110,10 @@ class WelcomeController < ApplicationController
         @company_tweet_array.push(personal_array)
       end
     end
-    puts @company_tweet_array[1]
-    @max_size = @company_tweet_array.max {|a,b| a.size<=>b.size}.size
+    if @company_tweet_array.size > 0
+      @max_size = @company_tweet_array.max {|a,b| a.size<=>b.size}.size
+    else @max_size = 0
+    end
     #you will also need to get stock data somehow and store it for
     #display in the view
   end
