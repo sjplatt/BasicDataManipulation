@@ -1,7 +1,5 @@
 class WelcomeController < ApplicationController
   
-  @@company_hash = Hash.new
-
   def index
     @data_transfer = DataTransfer.new
   end
@@ -42,12 +40,12 @@ class WelcomeController < ApplicationController
     if keywordDB
 
       #earliest and latest tweet
-      @start_time = keywordDB.tweets.first.tTime
-      @end_time = keywordDB.tweets.last.tTime
+      start_time = keywordDB.tweets.first.tTime
+      end_time = keywordDB.tweets.last.tTime
 
       #no. of time intervals
       interval = 15.minutes
-      size = (@end_time - @start_time) / interval + 1
+      size = (end_time - start_time) / interval + 1
 
       word_frequency = []
       #array of hashes storing frequencies of all words
@@ -59,7 +57,7 @@ class WelcomeController < ApplicationController
 
         tweet.tText.delete("\"[]").split(', ').each do |word|
           if word[/[a-zA-Z]+/] == word && word != keyword && !ApplicationHelper::Blacklist.include?(word)
-            index = (tweet.tTime - @start_time) / interval
+            index = (tweet.tTime - start_time) / interval
             word_frequency[index][word] += 1
           end
 
