@@ -1,7 +1,5 @@
 class WelcomeController < ApplicationController
   
-  @@company_hash = Hash.new
-
   def index
     @data_transfer = DataTransfer.new
   end
