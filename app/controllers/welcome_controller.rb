@@ -62,10 +62,6 @@ class WelcomeController < ApplicationController
           end
 
         end
-        #NOTE: tweet.tTime is the time it was created. 
-  #      tweet.tText is the tweets text as an array of words.
-  #      tweet.keyword_id is its keyword id(if you need)
-        #This is where the processing will happen
       end
     end
 
@@ -75,7 +71,8 @@ class WelcomeController < ApplicationController
   end
 
   def stock_analysis
-    set_up_company()
+    set_up_company
+    set_up_stock
     #this will be your output array. Please talk with whoever is doing
     # #4 for more details. 
     @company_tweet_array = []
@@ -89,6 +86,11 @@ class WelcomeController < ApplicationController
     #first tweet time
     start = Tweet.find_by(id:1).tTime
     
+    #STOCK DATA
+    #stock = StockQuote::Stock.quote(@@stock_name_hash[keyword],
+    #  start_time,end_time)
+    #Visit https://github.com/tyrauber/stock_quote for api
+
     #If the keyword is valid, we will loop through tweets.
     if (@@company_hash)[keyword]
       company_keywords = (@@company_hash)[keyword]
