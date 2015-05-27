@@ -1,3 +1,20 @@
 <div class="center jumbotron">
-  <h1>View Most Commom Words for <%=@keyword%></h1>
+  <h1>Stock analysis for <%=@keyword%></h1>
+  <table> 
+  <TABLE  BORDER="5">                        
+  <tr>
+    <th><%=Time%></th>
+    <% @company_header_array.each do |header| %>                      
+      <th><%=header%></th>
+    <% end %>   
+  </tr>
+    <% for t in 0..@max_size-1 %>
+      <tr>
+        <td><%=t*15%></td>
+        <% for i in 0..@company_header_array.size-1%>
+          <td><%=@company_tweet_array[i][t]%> </td>
+        <%end %>
+      </tr>
+    <%end%>
+  </table>
 </div>

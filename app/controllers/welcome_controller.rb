@@ -1,5 +1,7 @@
 class WelcomeController < ApplicationController
   
+  @@company_hash = Hash.new
+
   def index
     @data_transfer = DataTransfer.new
   end
@@ -75,27 +77,41 @@ class WelcomeController < ApplicationController
   end
 
   def stock_analysis
+    set_up_company()
     #this will be your output array. Please talk with whoever is doing
     # #4 for more details. 
-    @word_array = []
-
+    @company_tweet_array = []
+    @company_header_array = []
     #Basic parameter to make sure post is working
     @keyword = params[:stocks][:keyword]
 
     #This is the passed in keyword you will work with
     keyword = params[:stocks][:keyword].downcase
-    keywordDB = Keyword.find_by(word:keyword)
 
+    #first tweet time
+    start = Tweet.find_by(id:1).tTime
+    
     #If the keyword is valid, we will loop through tweets.
-    if keywordDB
-      keywordDB.tweets.each do |tweet|
-        #This is where the processing will happen
-         #NOTE: tweet.tTime is the time it was created. 
-  #      tweet.tText is the tweets text as an array of words.
-  #      tweet.keyword_id is its keyword id(if you need)
+    if (@@company_hash)[keyword]
+      company_keywords = (@@company_hash)[keyword]
+      company_keywords.each do |keywordC|
+        personal_array = []
+        keywordDB = Keyword.find_by(word:keywordC)
+        @company_header_array<<(keywordC)
+        if keywordDB
+          keywordDB.tweets.each do |tweet|
+            dif = TimeDifference.between(start,tweet.tTime).in_minutes/15
+            if personal_array[dif]
+              personal_array[dif] +=1
+            else personal_array[dif] = 1
+            end
+          end
+        end
+        @company_tweet_array.push(personal_array)
       end
     end
-
+    puts @company_tweet_array[1]
+    @max_size = @company_tweet_array.max {|a,b| a.size<=>b.size}.size
     #you will also need to get stock data somehow and store it for
     #display in the view
   end
