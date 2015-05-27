@@ -1,6 +1,131 @@
 <div class="center jumbotron">
-  <h1>View Most Common Words for <%=@keyword%></h1>
-  <%@word_array.each do |pair|%>
-    <%=pair[0]%> <%=pair[1]%> </br>
-  <%end%>
+  <h1>View Most Common Words Associated with <%=@keyword%></h1>
 </div>
+
+<svg id="graph"></svg>
+
+<style>
+.domain {
+  fill: none;
+  stroke: black;
+  stroke-width: 1;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: black;
+  shape-rendering: crispEdges;
+}
+
+.d3-tip {
+  background: rgba(0,0,0,.4);
+  padding: 10px;
+}
+</style>
+
+<script>
+makeGraph();
+
+function makeGraph() {
+  var margin = {top: 80, right: 50, bottom: 80, left: 50};
+  var abswidth = 1000,
+      absheight = 500,
+      width = abswidth - margin.left - margin.right,
+      height = absheight - margin.top - margin.bottom;
+  var graph = d3.select("#graph")
+    .attr("width", abswidth)
+    .attr("height", absheight)
+    .append("g")
+      .attr("transform",
+            "translate(" + margin.left + "," + margin.top + ")");
+
+  var format = d3.time.format.utc("%Y-%m-%d %H:%M:%S UTC");
+  // e.g. 2015-05-25 16:59:44 UTC
+  var startTime = format.parse("<%= @start_time %>");
+  var endTime = format.parse("<%= @end_time %>");
+
+  var data = <%= raw @word_array %>;
+  // assuming format [[count0,word0],[count1,word1],...]
+  var yMax = d3.max(d3.transpose(data)[0]);
+
+  var xScale = d3.time.scale.utc()
+    .range([0, width])
+    .domain([startTime, endTime]);
+  var yScale = d3.scale.linear()
+    .range([height, 0])
+    .domain([0, yMax]);
+
+  var xAxis = d3.svg.axis()
+    .scale(xScale)
+    .orient("bottom")
+    .ticks(d3.time.minutes.utc, 15);
+  var yAxis = d3.svg.axis()
+    .scale(yScale)
+    .orient("left");
+
+  // TODO (maybe, eventually): color contiguous blocks of most common words the same color
+  // puts a date into each sub-array according to the time block it's in
+  data.forEach(function(current,index) {
+    current.push(new Date(startTime.getTime() + 15*60000*index))
+  })
+  var xAccessor = function(d) {return xScale(d[2])}; // date
+  var yAccessor = function(d) {return yScale(d[0])}; // word count
+
+  var drawLine = d3.svg.line()
+    .x(xAccessor)
+    .y(yAccessor)
+  var tip = d3.tip()
+    .attr("class","d3-tip")
+    .offset([-10,0])
+    .html(function(d) {
+      return "Word: " + d[1] + "<br>Count: " + d[0];
+    });
+  graph.call(tip);
+
+  graph.append("g")
+    .attr("class", "x axis")
+    .attr("transform", "translate(0," + height + ")")
+    .call(xAxis)
+    .selectAll("text")
+      .style("text-anchor","end")
+      .attr("dx","-.8em")
+      .attr("dy",".15em")
+      .attr("transform",
+        function(d) {return "rotate(-65)"});
+  graph.append("g")
+    .attr("class", "y axis")
+    .call(yAxis);
+  graph.append("path")
+    .attr("d",drawLine(data))
+    .attr("stroke","black")
+    .attr("stroke-width",2)
+    .attr("fill","none");
+
+  graph.selectAll(".dot")
+    .data(data)
+    .enter().append("circle")
+    .attr("class","datapoint")
+    .attr("cx",xAccessor)
+    .attr("cy",yAccessor)
+    .attr("r",4)
+    .attr("stroke","red")
+    .attr("stroke-width",2)
+    .attr("fill","white")
+    .on("mouseover",tip.show)
+    .on("mouseout",tip.hide);
+}
+</script>
+
+<table>
+  <tr>
+    <th>Frequency</th>
+    <th>Word</th>
+  </tr>
+  <%@word_array.each do |pair|%>
+  <tr>
+    <td><%=pair[0]%></td>
+    <td><%=pair[1]%></td>
+  </tr>
+  <%end%>
+</table>
