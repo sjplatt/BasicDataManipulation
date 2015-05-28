@@ -84,7 +84,7 @@ class WelcomeController < ApplicationController
     keyword = params[:stocks][:keyword].downcase
 
     #first tweet time
-    start = Tweet.find_by(id:1).tTime
+    @start = Tweet.find_by(id:1).tTime
     
     #STOCK DATA
     #stock = StockQuote::Stock.quote(@@stock_name_hash[keyword],
@@ -100,7 +100,7 @@ class WelcomeController < ApplicationController
         @company_header_array<<(keywordC)
         if keywordDB
           keywordDB.tweets.each do |tweet|
-            dif = TimeDifference.between(start,tweet.tTime).in_minutes/15
+            dif = TimeDifference.between(@start,tweet.tTime).in_minutes/15
             if personal_array[dif]
               personal_array[dif] +=1
             else personal_array[dif] = 1
