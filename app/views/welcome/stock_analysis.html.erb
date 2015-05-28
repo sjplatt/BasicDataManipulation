@@ -1,20 +1,156 @@
 <div class="center jumbotron">
   <h1>Stock analysis for <%=@keyword%></h1>
-  <table> 
-  <TABLE  BORDER="5">                        
-  <tr>
-    <th><%=Time%></th>
-    <% @company_header_array.each do |header| %>                      
-      <th><%=header%></th>
-    <% end %>   
-  </tr>
-    <% for t in 0..@max_size-1 %>
-      <tr>
-        <td><%=t*15%></td>
-        <% for i in 0..@company_header_array.size-1%>
-          <td><%=@company_tweet_array[i][t]%> </td>
-        <%end %>
-      </tr>
-    <%end%>
-  </table>
 </div>
+  
+<svg id="graph"></svg>
+
+<style>
+.domain {
+  fill: none;
+  stroke: black;
+  stroke-width: 1;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: black;
+  shape-rendering: crispEdges;
+}
+
+.d3-tip {
+  background: rgba(0,0,0,.4);
+  padding: 10px;
+}
+
+path {
+  opacity: 0.35;
+}
+path:hover {
+  opacity: 0.85;
+}
+</style>
+
+<script>
+makeGraph();
+
+function makeGraph() {
+  var margin = {top: 20, right: 50, bottom: 80, left: 50};
+  var abswidth = 1300,
+      absheight = 600,
+      width = abswidth - margin.left - margin.right,
+      height = absheight - margin.top - margin.bottom;
+  var graph = d3.select("#graph")
+    .attr("width", abswidth)
+    .attr("height", absheight)
+    .append("g")
+      .attr("transform",
+            "translate(" + margin.left + "," + margin.top + ")");
+
+  var format = d3.time.format.utc("%Y-%m-%d %H:%M:%S UTC");
+  // e.g. 2015-05-25 16:59:44 UTC
+  var maxLen = <%= @max_size %>;
+  var startTime = format.parse("<%= @start %>");
+  var endTime = new Date(startTime.getTime() + 15*60000*maxLen);
+
+  var nil = 0; // appears in company_tweet_array as nil
+  var data = <%= raw @company_tweet_array %>;
+  var keywordList = <%= raw @company_header_array %>;
+  var yMax = d3.max(d3.merge(data));
+  // assuming format
+  // [[t0_keyword0count,t1_keyword0count,...],
+  //  [t0_keyword1count,t1_keyword1count,...],...]
+
+  // extend each incomplete subarray with 0s
+  data.forEach(function(current,index) {
+    if (maxLen - current.length > 0) {
+      var temp = [];
+      for (var i = 0; i < maxLen - current.length; i+=1) {
+        temp.push(0);
+      }
+      data[index] = current.concat(temp);
+    }
+  });
+  // extend each element into a 3-element array
+  // data[i][j] = (keyword i count at time j)
+  // -> [(keyword i count at time j), (keyword i), (time j)]
+  data.forEach(function(current,i) {
+    data[i] = current.map(function(countij,j) {
+      return [countij,
+              keywordList[i],
+              new Date(startTime.getTime() + 15*60000*j)];
+    });
+  });
+
+  var xScale = d3.time.scale.utc()
+    .range([0, width])
+    .domain([startTime, endTime]);
+  var yScale = d3.scale.linear()
+    .range([height, 0])
+    .domain([0, yMax]);
+
+  var xAxis = d3.svg.axis()
+    .scale(xScale)
+    .orient("bottom")
+    .ticks(d3.time.minutes.utc, 15);
+  var yAxis = d3.svg.axis()
+    .scale(yScale)
+    .orient("left");
+
+  var xAccessor = function(d) {return xScale(d[2])}; // date
+  var yAccessor = function(d) {return yScale(d[0])}; // word count
+
+  var drawLine = d3.svg.line()
+    .x(xAccessor)
+    .y(yAccessor);
+  var tip = d3.tip()
+    .attr("class","d3-tip")
+    .html(function(d) {
+      return "Keyword: " + d[1];
+    });
+  graph.call(tip);
+
+  graph.append("g")
+    .attr("class", "x axis")
+    .attr("transform", "translate(0," + height + ")")
+    .call(xAxis)
+    .selectAll("text")
+      .style("text-anchor","end")
+      .attr("dx","-.8em")
+      .attr("dy",".15em")
+      .attr("transform",
+        function(d) {return "rotate(-65)"});
+  graph.append("g")
+    .attr("class", "y axis")
+    .call(yAxis);
+
+  data.forEach(function(currentKeyword) {
+    graph.append("path")
+      .attr("d",drawLine(currentKeyword))
+      .attr("stroke","black")
+      .attr("stroke-width",3)
+      .attr("fill","none")
+      .data(currentKeyword)
+      .on("mouseover",tip.show)
+      .on("mouseout",tip.hide);
+  });
+}
+</script>
+
+<table border="5"> 
+<tr>
+  <th><%= Time %></th>
+  <% @company_header_array.each do |header| %>
+    <th><%= header %></th>
+  <% end %>   
+</tr>
+
+<% for t in 0..@max_size-1 %>
+  <tr>
+    <td><%= t*15 %></td>
+    <% for i in 0..@company_header_array.size-1 %>
+      <td><%= @company_tweet_array[i][t] %></td>
+    <% end %>
+  </tr>
+<% end %>
+</table>
