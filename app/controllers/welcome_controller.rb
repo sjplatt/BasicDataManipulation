@@ -101,7 +101,7 @@ class WelcomeController < ApplicationController
         @company_header_array<<(keywordC)
         if keywordDB
           keywordDB.tweets.each do |tweet|
-            dif = TimeDifference.between(@start,tweet.tTime).in_minutes/60
+            dif = TimeDifference.between(@start,tweet.tTime).in_minutes/15
             if personal_array[dif]
               personal_array[dif] +=1
             else personal_array[dif] = 1
