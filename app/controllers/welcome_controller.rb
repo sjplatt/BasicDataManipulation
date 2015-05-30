@@ -85,10 +85,11 @@ class WelcomeController < ApplicationController
 
     #first tweet time
     @start = Tweet.find_by(id:1).tTime
-    
+    @end = Tweet.last.tTime
     #STOCK DATA
-    #stock = StockQuote::Stock.quote(@@stock_name_hash[keyword],
-    #  start_time,end_time)
+    @stock = StockQuote::Stock.quote(@@stock_name_hash[keyword],
+      @start-3.days,@end)
+    #@stock = StockQuote::Stock.quote(@@stock_name_hash[keyword])
     #Visit https://github.com/tyrauber/stock_quote for api
 
     #If the keyword is valid, we will loop through tweets.
@@ -100,7 +101,7 @@ class WelcomeController < ApplicationController
         @company_header_array<<(keywordC)
         if keywordDB
           keywordDB.tweets.each do |tweet|
-            dif = TimeDifference.between(@start,tweet.tTime).in_minutes/15
+            dif = TimeDifference.between(@start,tweet.tTime).in_minutes/60
             if personal_array[dif]
               personal_array[dif] +=1
             else personal_array[dif] = 1
