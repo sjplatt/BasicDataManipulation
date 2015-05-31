@@ -116,7 +116,22 @@ class WelcomeController < ApplicationController
             end
           end
         end
-        @company_tweet_array.push(personal_array)
+        temporary_array = []
+
+        while personal_array.slice(0,4)!= [] do
+          temporary_array
+          split = personal_array.slice(0,4)
+          addition = split.reduce(0) do |sum,n|
+              if n
+                sum+n
+              else sum
+              end
+          end
+          temporary_array<<addition/split.size.to_f
+          personal_array.slice!(0,4)
+        end
+
+        @company_tweet_array.push(temporary_array)
       end
     end
     if @company_tweet_array.size > 0
