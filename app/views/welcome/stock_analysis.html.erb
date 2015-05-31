@@ -53,11 +53,13 @@ function makeGraph() {
       .attr("transform",
             "translate(" + margin.left + "," + margin.top + ")");
 
-  var format = d3.time.format.utc("%Y-%m-%d %H:%M:%S UTC");
+  var format = d3.time.format("%Y-%m-%d %H:%M:%S UTC");
   // e.g. 2015-05-25 16:59:44 UTC
   var maxLen = <%= @max_size %>;
   var startTime = format.parse("<%= @start %>");
   var trueEndTime = format.parse("<%= @end %>");
+  startTime = new Date(startTime.getTime() - 60*60000*4);
+  trueEndTime = new Date(trueEndTime.getTime() - 60*60000*4);
   var endTime = new Date(startTime.getTime() + timeInterval*60000*maxLen);
 
   var nil = 0; // appears in company_tweet_array as nil
@@ -95,7 +97,7 @@ function makeGraph() {
     });
   });
 
-  var xScale = d3.time.scale.utc()
+  var xScale = d3.time.scale()
     .range([0, width])
     .domain([startTime, endTime]);
   var yScale = d3.scale.linear()
@@ -108,7 +110,7 @@ function makeGraph() {
   var xAxis = d3.svg.axis()
     .scale(xScale)
     .orient("bottom")
-    .ticks(d3.time.minutes.utc, timeInterval);
+    .ticks(d3.time.minutes, timeInterval);
   var yAxis = d3.svg.axis()
     .scale(yScale)
     .orient("left");
@@ -166,7 +168,7 @@ function makeGraph() {
     .attr("class","d3-tip")
     .offset([-10,0])
     .html(function(d) {
-      return d[1] + " x " + d[0] + "<br>Date: " + d[2].toUTCString();
+      return d[1] + " x " + d[0] + "<br>Date: " + d[2].toString();
     });
   graph.call(dotTip);
   data.forEach(function(currentKeyword) {
@@ -185,7 +187,7 @@ function makeGraph() {
   });
 
   // stock high/low bounding rectangle and tooltips
-  var xStockAccessor = function(d) {return xScale(d[0])}; // date
+  /*var xStockAccessor = function(d) {return xScale(d[0])}; // date
   var yStockAccessor = function(d) {return stockScale(d[1])}; // price
   var drawLine2 = d3.svg.line()
     .x(xStockAccessor)
@@ -224,7 +226,7 @@ function makeGraph() {
       .attr("stroke","blue")
       .attr("stroke-width",2)
       .attr("fill","white");
-  });
+  });*/
   
   // date
   graph.append("text")
@@ -232,7 +234,7 @@ function makeGraph() {
     .attr("x","1em")
     .attr("y","-2em");
   graph.append("text")
-    .text(startTime.toUTCString())
+    .text(startTime)
     .attr("x","4em")
     .attr("y","-2em");
   graph.append("text")
@@ -240,7 +242,7 @@ function makeGraph() {
     .attr("x","1em")
     .attr("y","-1em");
   graph.append("text")
-    .text(trueEndTime.toUTCString())
+    .text(trueEndTime)
     .attr("x","4em")
     .attr("y","-1em");
 }
