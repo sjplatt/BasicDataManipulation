@@ -88,7 +88,7 @@ class WelcomeController < ApplicationController
     @end = Tweet.last.tTime
     #STOCK DATA
     @stock = StockQuote::Stock.quote(@@stock_name_hash[keyword],
-      @start-3.days,@end)
+      @start,@end)
     #@stock = StockQuote::Stock.quote(@@stock_name_hash[keyword])
     #Visit https://github.com/tyrauber/stock_quote for api
 
