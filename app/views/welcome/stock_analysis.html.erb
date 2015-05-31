@@ -3,6 +3,8 @@
 </div>
   
 <svg id="graph"></svg>
+<br>
+<svg id="pct-chg-graph"></svg>
 
 <style>
 .domain {
@@ -20,7 +22,7 @@
 }
 
 .d3-tip {
-  background: rgba(0,0,0,.4);
+  background: rgba(1,1,1,.4);
   padding: 10px;
 }
 
@@ -41,6 +43,8 @@ function makeGraph() {
       absheight = 600,
       width = abswidth - margin.left - margin.right,
       height = absheight - margin.top - margin.bottom;
+  // var timeInterval = <%= @graph_scale %>;
+  var timeInterval = 60; // minutes between each element in array
 
   var graph = d3.select("#graph")
     .attr("width", abswidth)
@@ -54,7 +58,7 @@ function makeGraph() {
   var maxLen = <%= @max_size %>;
   var startTime = format.parse("<%= @start %>");
   var trueEndTime = format.parse("<%= @end %>");
-  var endTime = new Date(startTime.getTime() + 15*60000*maxLen);
+  var endTime = new Date(startTime.getTime() + timeInterval*60000*maxLen);
 
   var nil = 0; // appears in company_tweet_array as nil
   var data = <%= raw @company_tweet_array %>;
@@ -87,7 +91,7 @@ function makeGraph() {
     data[i] = current.map(function(countij,j) {
       return [countij,
               keywordList[i],
-              new Date(startTime.getTime() + 15*60000*j)];
+              new Date(startTime.getTime() + timeInterval*60000*j)];
     });
   });
 
@@ -104,7 +108,7 @@ function makeGraph() {
   var xAxis = d3.svg.axis()
     .scale(xScale)
     .orient("bottom")
-    .ticks(d3.time.minutes.utc, 15);
+    .ticks(d3.time.minutes.utc, timeInterval);
   var yAxis = d3.svg.axis()
     .scale(yScale)
     .orient("left");
@@ -134,8 +138,9 @@ function makeGraph() {
       .style("text-anchor","end")
       .attr("dx","-.8em")
       .attr("dy",".15em")
+      .style("font-size","10pt")
       .attr("transform",
-        function(d) {return "rotate(-65)"});
+        function(d) {return "rotate(-75)"});
   graph.append("g")
     .attr("class", "y axis")
     .call(yAxis);
@@ -154,6 +159,29 @@ function makeGraph() {
       .data(currentKeyword)
       .on("mouseover",tip.show)
       .on("mouseout",tip.hide);
+  });
+
+  // dots for time, TODO: grid lines?
+  var dotTip = d3.tip()
+    .attr("class","d3-tip")
+    .offset([-10,0])
+    .html(function(d) {
+      return d[1] + " x " + d[0] + "<br>Date: " + d[2].toUTCString();
+    });
+  graph.call(dotTip);
+  data.forEach(function(currentKeyword) {
+    graph.selectAll(".dot")
+      .data(currentKeyword)
+      .enter().append("circle")
+      .attr("class","datapoint")
+      .attr("cx",xAccessor)
+      .attr("cy",yAccessor)
+      .attr("r",3)
+      .attr("stroke","red")
+      .attr("stroke-width",1)
+      .attr("fill","red")
+      .on("mouseover",dotTip.show)
+      .on("mouseout",dotTip.hide);
   });
 
   // stock high/low bounding rectangle and tooltips
