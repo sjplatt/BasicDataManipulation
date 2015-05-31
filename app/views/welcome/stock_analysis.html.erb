@@ -93,7 +93,7 @@ function makeGraph() {
 
   var xScale = d3.time.scale.utc()
     .range([0, width])
-    .domain([startTime, new Date(endTime.getTime() + 48*60*60000)]);
+    .domain([startTime, endTime]);
   var yScale = d3.scale.linear()
     .range([height, 0])
     .domain([0, yMax]);
