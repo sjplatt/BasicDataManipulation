@@ -222,11 +222,7 @@ DEPENDENCIES
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   spring
-<<<<<<< HEAD
-  sqlite3
   stock_quote
-=======
->>>>>>> mysql
   time_difference
   turbolinks
   tweetstream
