@@ -75,6 +75,7 @@ class WelcomeController < ApplicationController
   def stock_analysis
     set_up_company
     set_up_stock
+    set_up_stock_prices
     #this will be your output array. Please talk with whoever is doing
     # #4 for more details. 
     @company_tweet_array = []
@@ -84,6 +85,11 @@ class WelcomeController < ApplicationController
 
     #This is the passed in keyword you will work with
     keyword = params[:stocks][:keyword].downcase
+
+    @stock_hourly_price = @@stock_price_hash[keyword]
+    if !@stock_hourly_price
+      @stock_hourly_price = []
+    end
 
     #first tweet time
     @start = Tweet.find_by(id:1).tTime
