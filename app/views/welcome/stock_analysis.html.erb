@@ -16,6 +16,7 @@
   fill: none;
   stroke: black;
   shape-rendering: crispEdges;
+  opacity: 1;
 }
 
 .d3-tip {
@@ -35,11 +36,12 @@ path:hover {
 makeGraph();
 
 function makeGraph() {
-  var margin = {top: 20, right: 50, bottom: 80, left: 50};
+  var margin = {top: 50, right: 50, bottom: 80, left: 50};
   var abswidth = 1300,
       absheight = 600,
       width = abswidth - margin.left - margin.right,
       height = absheight - margin.top - margin.bottom;
+
   var graph = d3.select("#graph")
     .attr("width", abswidth)
     .attr("height", absheight)
@@ -51,12 +53,19 @@ function makeGraph() {
   // e.g. 2015-05-25 16:59:44 UTC
   var maxLen = <%= @max_size %>;
   var startTime = format.parse("<%= @start %>");
+  var trueEndTime = format.parse("<%= @end %>");
   var endTime = new Date(startTime.getTime() + 15*60000*maxLen);
 
   var nil = 0; // appears in company_tweet_array as nil
   var data = <%= raw @company_tweet_array %>;
   var keywordList = <%= raw @company_header_array %>;
   var yMax = d3.max(d3.merge(data));
+
+  var stockData = <%= raw @stock %>;
+  console.log(stockData);
+  var stockMax = Math.max.apply(Math,stockData.quote.map(function(o){return o.High;}));
+    //https://jsfiddle.net/45c5r246/
+
   // assuming format
   // [[t0_keyword0count,t1_keyword0count,...],
   //  [t0_keyword1count,t1_keyword1count,...],...]
@@ -84,10 +93,13 @@ function makeGraph() {
 
   var xScale = d3.time.scale.utc()
     .range([0, width])
-    .domain([startTime, endTime]);
+    .domain([startTime, new Date(endTime.getTime() + 48*60*60000)]);
   var yScale = d3.scale.linear()
     .range([height, 0])
     .domain([0, yMax]);
+  var stockScale = d3.scale.linear()
+    .range([height, 0])
+    .domain([0, stockMax]);
 
   var xAxis = d3.svg.axis()
     .scale(xScale)
@@ -96,6 +108,9 @@ function makeGraph() {
   var yAxis = d3.svg.axis()
     .scale(yScale)
     .orient("left");
+  var stockAxis = d3.svg.axis()
+    .scale(stockScale)
+    .orient("right");
 
   var xAccessor = function(d) {return xScale(d[2])}; // date
   var yAccessor = function(d) {return yScale(d[0])}; // word count
@@ -110,6 +125,7 @@ function makeGraph() {
     });
   graph.call(tip);
 
+  // axes
   graph.append("g")
     .attr("class", "x axis")
     .attr("transform", "translate(0," + height + ")")
@@ -123,7 +139,12 @@ function makeGraph() {
   graph.append("g")
     .attr("class", "y axis")
     .call(yAxis);
+  graph.append("g")
+    .attr("class", "stock axis")
+    .attr("transform", "translate(" + width + ",0)")
+    .call(stockAxis);
 
+  // data lines and tooltips
   data.forEach(function(currentKeyword) {
     graph.append("path")
       .attr("d",drawLine(currentKeyword))
@@ -134,6 +155,74 @@ function makeGraph() {
       .on("mouseover",tip.show)
       .on("mouseout",tip.hide);
   });
+
+  // stock high/low bounding rectangle and tooltips
+  var xStockAccessor = function(d) {return xScale(d[0])}; // date
+  var yStockAccessor = function(d) {return stockScale(d[1])}; // price
+  var drawLine2 = d3.svg.line()
+    .x(xStockAccessor)
+    .y(yStockAccessor);
+
+  var stockRects = [];
+  // each element is a 5-element array of 2-element arrays, pts forming a rectangle
+  var stockOpenCloseDots = [];
+  // each element is a 2-element array, each describing a pt
+
+  stockData.quote.forEach(function(current) {
+    var stockHigh = current.High;
+    var stockLow = current.Low;
+    var stockOpen = current.Open;
+    var stockClose = current.Close;
+    var openTimeUTC = format.parse(current.Date + " 13:30:00 UTC");
+    var closeTimeUTC = format.parse(current.Date + " 20:00:00 UTC");
+    
+    stockRects.push(rectFrom_SW_NE([openTimeUTC,stockLow],[closeTimeUTC,stockHigh]));
+    stockOpenCloseDots.push([openTimeUTC,stockOpen]);
+    stockOpenCloseDots.push([closeTimeUTC,stockClose]);
+  });
+
+  stockRects.forEach(function(currentRect) {
+    graph.append("path")
+      .attr("d",drawLine2(currentRect))
+      .attr("stroke","blue")
+      .attr("stroke-width",3)
+      .attr("fill","none");
+  });
+  stockOpenCloseDots.forEach(function(currentDot) {
+    graph.append("circle")
+      .attr("cx",xStockAccessor(currentDot))
+      .attr("cy",yStockAccessor(currentDot))
+      .attr("r",4)
+      .attr("stroke","blue")
+      .attr("stroke-width",2)
+      .attr("fill","white");
+  });
+  
+  // date
+  graph.append("text")
+    .text("Start: ")
+    .attr("x","1em")
+    .attr("y","-2em");
+  graph.append("text")
+    .text(startTime.toUTCString())
+    .attr("x","4em")
+    .attr("y","-2em");
+  graph.append("text")
+    .text("End:")
+    .attr("x","1em")
+    .attr("y","-1em");
+  graph.append("text")
+    .text(trueEndTime.toUTCString())
+    .attr("x","4em")
+    .attr("y","-1em");
+}
+
+// takes sw=[x,y], ne=[x,y]
+// returns a cyclic path with those as bottom-left, upper-right vertices
+function rectFrom_SW_NE(sw,ne) {
+  var nw = [sw[0],ne[1]];
+  var se = [ne[0],sw[1]];
+  return [sw,nw,ne,se,sw];
 }
 </script>
 
