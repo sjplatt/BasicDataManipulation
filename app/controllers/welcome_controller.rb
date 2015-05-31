@@ -1,3 +1,5 @@
+require 'json'
+
 class WelcomeController < ApplicationController
   
   def index
@@ -87,8 +89,8 @@ class WelcomeController < ApplicationController
     @start = Tweet.find_by(id:1).tTime
     @end = Tweet.last.tTime
     #STOCK DATA
-    @stock = StockQuote::Stock.quote(@@stock_name_hash[keyword],
-      @start,@end)
+    @stock = StockQuote::Stock.json_quote(@@stock_name_hash[keyword],
+      @start,@end).to_json
     #@stock = StockQuote::Stock.quote(@@stock_name_hash[keyword])
     #Visit https://github.com/tyrauber/stock_quote for api
 
